@@ -149,7 +149,7 @@ fi
 #Creating full backup
 if [[ $FULL_BACKUP == 1 ]]; then
     echo "$(date '+%F %H:%M:%S') Creating full backup ..."
-    rsync -a ${WORDPRESS_PATH} ${BACKUP_PATH}/full
+    rsync -a ${WORDPRESS_PATH} ${FULL_BACKUP_PATH}
     func_log "Full backup" $?
 fi
 
