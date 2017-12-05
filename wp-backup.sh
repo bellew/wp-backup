@@ -133,15 +133,15 @@ func_log "Configuration files backup" $?
 
 #Copying files to folders
 echo "$(date '+%F %H:%M:%S') Copying files to folders ..."
-if [[ $( date '+%w' ) == 6 ]]; then
+if [[ $WEEKLY_KEEP > 0 && $( date '+%w' ) == 6 ]]; then
     cp -f $BACKUP_PATH/daily/wp-*-$FILE_SUFFIX.* $BACKUP_PATH/weekly/
     func_log "Copy to weekly folder" $?
 fi
-if [[ $( date '+%w' ) == ${LAST_MONTH_DAY} ]]; then
+if [[ $MONTHLY_KEEP > 0 && $( date '+%w' ) == ${LAST_MONTH_DAY} ]]; then
     cp -f $BACKUP_PATH/daily/wp-*-$FILE_SUFFIX.* $BACKUP_PATH/monthly/
     func_log "Copy to monthly folder" $?
 fi
-if [[ $( date '+%j' ) == ${LAST_YEAR_DAY} ]]; then
+if [[ $YEARLY_KEEP > 0 && $( date '+%j' ) == ${LAST_YEAR_DAY} ]]; then
     cp -f $BACKUP_PATH/daily/wp-*-$FILE_SUFFIX.* $BACKUP_PATH/yearly/
     func_log "Copy to yearly folder" $?
 fi
