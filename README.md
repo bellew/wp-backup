@@ -62,6 +62,112 @@ If it is missing install it
 ```# yum install rsync```
 
 ### rclone
+You can find documentation here https://rclone.org/install/
 
+Download and unpack ```rclone```
+```
+# curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
+# unzip rclone-current-linux-amd64.zip
+# cd rclone-*-linux-amd64
+```
+
+Copy *rclone* binary file
+```
+# cp rclone /usr/bin/
+# chown root:root /usr/bin/rclone
+# chmod 755 /usr/bin/rclone
+```
+
+Configure *rclone* for Google Drive. Google Drive provide you 15Gb free of charge on registration.
+```
+# rclone config
+
+No remotes found - make a new one
+n) New remote
+r) Rename remote
+c) Copy remote
+s) Set configuration password
+q) Quit config
+n/r/c/s/q> n
+name> google
+Choose a number from below, or type in your own value
+ 1 / Amazon Drive
+   \ "amazon cloud drive"
+ 2 / Amazon S3 (also Dreamhost, Ceph, Minio)
+   \ "s3"
+ 3 / Backblaze B2
+   \ "b2"
+ 4 / Box
+   \ "box"
+ 5 / Dropbox
+   \ "dropbox"
+ 6 / Encrypt/Decrypt a remote
+   \ "crypt"
+ 7 / FTP Connection
+   \ "ftp"
+ 8 / Google Cloud Storage (this is not Google Drive)
+   \ "google cloud storage"
+ 9 / Google Drive
+   \ "drive"
+10 / Hubic
+   \ "hubic"
+11 / Local Disk
+   \ "local"
+12 / Microsoft Azure Blob Storage
+   \ "azureblob"
+13 / Microsoft OneDrive
+   \ "onedrive"
+14 / Openstack Swift (Rackspace Cloud Files, Memset Memstore, OVH)
+   \ "swift"
+15 / QingClound Object Storage
+   \ "qingstor"
+16 / SSH/SFTP Connection
+   \ "sftp"
+17 / Yandex Disk
+   \ "yandex"
+18 / http Connection
+   \ "http"
+Storage> 9
+Google Application Client Id - leave blank normally.
+client_id>
+Google Application Client Secret - leave blank normally.
+client_secret>
+Remote config
+Use auto config?
+ * Say Y if not sure
+ * Say N if you are working on a remote or headless machine or Y didn't work
+y) Yes
+n) No
+y/n> n
+If your browser doesn't open automatically go to the following link: https://accounts.google.com/o/oauth2/......
+Log in and authorize rclone for access
+Enter verification code>
+--------------------
+[remote]
+client_id =
+client_secret =
+token = {"AccessToken":"xxxx.x.xxxxx_xxxxxxxxxxx_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","RefreshToken":"1/xxxxxxxxxxxxxxxx_xxxxxxxxxxxxxxxxxxxxxxxxxx","Expiry":"2014-03-16T13:57:58.955387075Z","Extra":null}
+--------------------
+y) Yes this is OK
+e) Edit this remote
+d) Delete this remote
+y/e/d> y
+```
+
+This will end up with *rclone* configuration file located here ```~/.config/rclone/rclone.conf```
+
+Test your *rclone* configuration
+```
+# rclone ls google:
+# rclone lsd google:
+```
 
 ### crontab
+Finally create *crontab* job running every day at 11:30 PM and store output in */var/log/wp-backup.log* 
+
+```
+# crontab -e
+#Backup
+30 23 * * * /root/wp-backup.sh >> /var/log/wp-backup.log 2>&1
+```
+
