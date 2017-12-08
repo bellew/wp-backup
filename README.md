@@ -1,7 +1,7 @@
 # wp-backup.sh
 
 ## About
-```wp-backup.sh``` is a **WordPress** backup script written in **bash** who tries to create and control WordPress and OS configuration files backups. Written to provide backup capabilites on cheap VPS who doesn't provide such functionality or require additional charge. Used and tested on **CentOS 7**.
+```wp-backup.sh``` is a **WordPress** backup script written in **bash**. It tries to create and control WordPress and CentOS configuration files backups. Written to provide backup capabilites on cheap VPS who doesn't provide such functionality or require additional charge. Used and tested on **CentOS 7**.
 
 ## What you need
 ```mysqldump``` used to dump database content. Typically part of **MySQL** or **MariaDB** package.
@@ -12,7 +12,7 @@
 
 ## How to use it
 
-### Ajust settings
+### Adjust settings
 ```WORDPRESS_PATH="/path/to/wordpress"``` path to WordPress installation folder
 
 If you don't need some of following backups you can simply set **0** - this will disable backup files creation.
