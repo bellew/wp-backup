@@ -53,17 +53,17 @@ if [ -w "$BACKUP_PATH" ]; then
         touch "$BACKUP_PATH/daily/daily.file"
     fi
     if [ ! -e "$BACKUP_PATH/weekly" ]; then
-        echo "$(date '+%F %H:%M:%S') Creating weekly folder: $BACKUP_PATH/daily"
+        echo "$(date '+%F %H:%M:%S') Creating weekly folder: $BACKUP_PATH/weekly"
         mkdir "$BACKUP_PATH/weekly"
         touch "$BACKUP_PATH/weekly/weekly.file"
     fi
     if [ ! -e "$BACKUP_PATH/monthly" ]; then
-        echo "$(date '+%F %H:%M:%S') Creating monthly folder: $BACKUP_PATH/daily"
+        echo "$(date '+%F %H:%M:%S') Creating monthly folder: $BACKUP_PATH/monthly"
         mkdir "$BACKUP_PATH/monthly"
         touch "$BACKUP_PATH/monthly/monthly.file"
     fi
     if [ ! -e "$BACKUP_PATH/yearly" ]; then
-        echo "$(date '+%F %H:%M:%S') Creating yearly folder: $BACKUP_PATH/daily"
+        echo "$(date '+%F %H:%M:%S') Creating yearly folder: $BACKUP_PATH/yearly"
         mkdir "$BACKUP_PATH/yearly"
         touch "$BACKUP_PATH/yearly/yearly.file"
     fi
@@ -137,7 +137,7 @@ if [[ $WEEKLY_KEEP > 0 && $( date '+%w' ) == 6 ]]; then
     cp -f $BACKUP_PATH/daily/wp-*-$FILE_SUFFIX.* $BACKUP_PATH/weekly/
     func_log "Copy to weekly folder" $?
 fi
-if [[ $MONTHLY_KEEP > 0 && $( date '+%w' ) == ${LAST_MONTH_DAY} ]]; then
+if [[ $MONTHLY_KEEP > 0 && $( date '+%e' ) == ${LAST_MONTH_DAY} ]]; then
     cp -f $BACKUP_PATH/daily/wp-*-$FILE_SUFFIX.* $BACKUP_PATH/monthly/
     func_log "Copy to monthly folder" $?
 fi
@@ -155,13 +155,13 @@ fi
 
 #Copy backup files to Google Drive
 echo "$(date '+%F %H:%M:%S') Copying files to Google Drive ..."
-rclone sync --delete-before $BACKUP_PATH/daily google:/backups/daily
+rclone sync --drive-use-trash=false --delete-before $BACKUP_PATH/daily google:/backups/daily
 func_log "Copy to Google Drive daily folder" $?
-rclone sync --delete-before $BACKUP_PATH/weekly google:/backups/weekly
+rclone sync --drive-use-trash=false --delete-before $BACKUP_PATH/weekly google:/backups/weekly
 func_log "Copy to Google Drive weekly folder" $?
-rclone sync --delete-before $BACKUP_PATH/monthly google:/backups/monthly
+rclone sync --drive-use-trash=false --delete-before $BACKUP_PATH/monthly google:/backups/monthly
 func_log "Copy to Google Drive monthly folder" $?
-rclone sync --delete-before $BACKUP_PATH/yearly google:/backups/yearly
+rclone sync --drive-use-trash=false --delete-before $BACKUP_PATH/yearly google:/backups/yearly
 func_log "Copy to Google Drive yearly folder" $?
 
 echo "$(date '+%F %H:%M:%S') Wordpress backup END"
